@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <string.h>
+
+char retiraAcento(char *substring);
+
+int main(){
+	int i,controle=0;
+	char frase[100];
+	char saida[100]={0};
+	char aux[3]={0};
+	puts("Digite a frase de entrada");
+	scanf("%[^\n]s",frase);
+	for(i=0;i<strlen(frase);i++){
+		if(frase[i]<0){
+			aux[0] = frase[i];
+			aux[1] = frase[i+1];
+			i++;
+			saida[controle] = retiraAcento(aux);
+			controle++;
+		}
+		else{
+			saida[controle] = frase[i];
+			controle++;
+		}
+	}
+	puts(saida);
+	return 0;
+
+}
+
+char retiraAcento(char *substring){
+
+	if(!strcmp(substring,"ã") || !strcmp(substring,"â") || !strcmp(substring,"á"))
+		return 'a';
+	if(!strcmp(substring,"Ã") || !strcmp(substring,"Â") || !strcmp(substring,"Á"))
+		return 'A';
+	if(!strcmp(substring,"ê") || !strcmp(substring,"é"))
+		return 'e';
+	if(!strcmp(substring,"Ê") || !strcmp(substring,"É"))
+		return 'E';
+	if(!strcmp(substring,"í"))
+		return 'i';
+	if(!strcmp(substring,"Í"))
+		return 'I';
+	if(!strcmp(substring,"ó"))
+		return 'o';
+	if(!strcmp(substring,"Ó"))
+		return 'O';
+	if(!strcmp(substring,"ú"))
+		return 'u';
+	if(!strcmp(substring,"Ú"))
+		return 'U';
+	if(!strcmp(substring,"ç"))
+		return 'c';
+	if(!strcmp(substring,"Ç"))
+		return 'C';
+	return 0;
+	
+
+
+}
