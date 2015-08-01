@@ -6,8 +6,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
-#define IP_ADDR "192.168.150.29"
-#define PORT_NO 8080
+#define IP_ADDR "127.0.0.1"
+#define PORT_NO 9090
 
 SOCKET create_socket(void);
 int connect_socket(SOCKET* sock, char* ip, int port, int timeout_recv);
@@ -43,24 +43,24 @@ int main(int argc, char *argv[])
                 }
                 else
                 {
-                    perror("ERROR reading from socket");
+                    puts("ERROR reading from socket");
                 }
             }
             else
             {
-                perror("ERROR writing to socket");
+                puts("ERROR writing to socket");
             }
         }
         else
         {
-            perror("ERROR connecting");
+            puts("ERROR connecting");
         }
 
         disconnect_socket(&sock);
     }
     else
     {
-        perror("ERROR opening socket");
+        puts("ERROR opening socket");
     }
 
     destroy_socket(&sock);

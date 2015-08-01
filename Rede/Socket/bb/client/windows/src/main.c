@@ -21,6 +21,8 @@ char escolhe_lampada(int lampada);
 
 int main(int argc, char *argv[])
 {
+	
+    
     SOCKET sock = create_socket();
 
     if (sock != INVALID_SOCKET)
@@ -102,10 +104,9 @@ void menu(char *header,char *buffer,SOCKET *sock){
 					printf("%d %d\n",buffer[0]-'0',n);
 					break;
 				case 4:
-					/*header[0]= 0x03;
+					header[0]= 0x03;
 					send_socket(sock,header,1);
 					n = recv_socket(sock,buffer,256);
-					printf("%d\n",buffer[0]);*/
 					header[0] = 0x04;
 					int lamp;
 					puts("Digite a lampada a ser acesa: ");
@@ -115,6 +116,7 @@ void menu(char *header,char *buffer,SOCKET *sock){
 						puts("Luz já está acesa");
 					}
 					else{
+						header[1] = header[1] | buffer[0];
 						send_socket(sock,header,2);
 						
 					}
@@ -231,3 +233,4 @@ int keyboard_read(char* message, char* buffer, int to_read)
 
     return read;
 }
+
