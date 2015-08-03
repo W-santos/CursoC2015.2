@@ -1,0 +1,100 @@
+#include "servidor.h"
+
+int criarSocket()
+{
+
+	int s = socket(AF_INET, SOCK_STREAM,0);
+
+	if(s == -1){
+		puts("Sem socket");
+		return 0;
+	}
+	return s;
+}
+	
+void vincularSocket(int socket, int port)
+{
+
+	struct sockaddr_in conexao;
+	struct timeval tv = {0};
+  	tv.tv_usec = 100;
+	setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, (char*) &tv, sizeof(struct timeval));
+	
+	conexao.sin_family = AF_INET;
+	conexao.sin_port = (in_port_t) htons(port);
+	conexao.sin_addr.s_addr = htonl(INADDR_ANY);
+	int reuse = 1;
+	if (setsockopt(socket,SOL_SOCKET,SO_REUSEADDR, (char *)&reuse, sizeof(int) == -1))
+	int c = bind(socket, (struct sockaddr *) &conexao, sizeof(conexao));
+		if(c==-1){
+			puts("Não é possível criar conexão");
+			exit(0);
+		}
+
+}
+
+int esperarConexao(int socket,int max_sockets){
+
+	int novo_socket = INVALID_SOCKET;
+	if(socket != INVALID_SOCKET)
+	{
+		int tamcliente;
+		struct sockaddr end_cliente;
+		listen(socket,max_sockets);
+		tamcliente = sizeof(end_cliente);
+		
+		novo_socket =accept(socket, (struct sockaddr *) &end_cliente, (socklen_t*) &tamcliente);
+		if(novo_socket != INVALID_SOCKET)
+		{
+			struct timeval tv = {0};
+  			tv.tv_usec = 100;
+  			 setsockopt(new_sockfd, SOL_SOCKET, SO_RCVTIMEO, (char*) &tv, sizeof(struct timeval));
+            printf("New connection incoming: %s:%d\n", inet_ntoa(cli_addr.sin_addr),ntohs(cli_addr.sin_port));
+        }
+		
+	}
+
+}
+
+int lerMensagemCliente(int socket, char *buffer, int len)
+{
+
+	char *aux = buffer;
+	int resto = len;
+	int c = recv(socket,aux,resto,0);
+		if (c==0){
+			buffer[0] = '\0';
+			return 0;
+		}
+	while((c>0) && (aux[c-1] != '\n')){ //lê até encontrar o \n
+		aux +=c;
+		resto -= c;
+		c = recv(socket,aux,resto,0);
+	}
+	
+	if(c<0)
+		return c;
+	else
+		aux[c-1] = '\0'; // substitui o \n por \0
+	return len-resto; //total de caracteres lidos	
+}
+
+int enviarMensagemCliente(int socket, char *buffer, int len)
+{
+
+	int enviados = 0;
+
+    if ((socket != INVALID_SOCKET) && buffer && (len > 0))
+    {
+        sent = send(socket, buffer, len, 0);
+    return sent;
+
+}
+
+void desconectarSocket(int socket)
+{
+
+
+}
+
+
